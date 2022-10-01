@@ -1,0 +1,3 @@
+- buscar todas las respuestas de cada pregunta
+- registrar numero de votos favorables y votos totales
+- registrar si el usuario es el seller
