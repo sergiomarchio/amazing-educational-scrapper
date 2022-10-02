@@ -7,6 +7,8 @@ from urllib.parse import urljoin
 import re
 import requests
 
+from log import save_log
+
 
 class Page:
     """
@@ -38,6 +40,14 @@ class Page:
         print(f"making request to {self.url}")
         r = requests.get(self.url, headers=self.headers)
         return BeautifulSoup(r.content, 'html.parser')
+
+    def content_error(self):
+        """
+        When the page content required is not present, performs the logging if log setting is on
+        """
+        print()
+        print(f"Failed request for {self.url}")
+        save_log(self.soup.prettify())
 
 
 class PaginatedPage(Page):
@@ -87,6 +97,7 @@ class PaginatedPage(Page):
         item_count = 0
         for page in self.pages():
             if item_count == max_items:
+                print(f"Already collected max number of items: {max_items}")
                 break
 
             for item in page.items(max_items - item_count, **kwargs):
@@ -105,11 +116,13 @@ class ResultsPage(PaginatedPage):
     def items(self, max_items=-1, **kwargs):
         products = self.soup.select(self.product_locator)
         if not products:
+            self.content_error()
             return None
 
         product_count = 0
         for product in products:
             if product_count == max_items:
+                print(f"Already collected max number of products: {max_items}")
                 break
 
             product_link = product.select_one(self.product_link_locator)
@@ -117,6 +130,8 @@ class ResultsPage(PaginatedPage):
             if product_link:
                 yield ProductPage(self.base_url, product_link['href'], headers=self.headers)
                 product_count += 1
+            else:
+                self.content_error()
 
 
 class ProductPage(Page):
@@ -143,8 +158,12 @@ class ProductPage(Page):
         name_soup = self.soup.select_one(self.name_locator)
         ratings_count_soup = self.soup.select_one(self.ratings_count_locator)
 
-        asin = asin_soup['value'] if name_soup else ""
-        name = name_soup.text.strip() if name_soup else ""
+        if not asin_soup or not name_soup:
+            self.content_error()
+            return None
+
+        asin = asin_soup['value']
+        name = name_soup.text.strip()
         ratings_count_text = ratings_count_soup.text if ratings_count_soup else ""
 
         match = re.search(r"\d+", ratings_count_text)
@@ -188,20 +207,19 @@ class QuestionsPage(PaginatedPage):
         question_count = 0
         for card in self.soup.select(self.card_locator):
             if question_count == max_items:
+                print(f"Already collected max number of questions: {max_items}")
                 break
 
             question_soup = card.select_one(self.question_locator)
-            if not question_soup:
-                continue
-
             question_link_soup = question_soup.select_one(self.question_link_locator)
-            if not question_link_soup:
+
+            if not question_soup or not question_link_soup:
+                self.content_error()
                 continue
 
             question_count += 1
 
             votes_soup = card.select_one(self.votes_locator)
-
             question_text = question_link_soup.text.strip()
             try:
                 votes_value = int(votes_soup.text)
@@ -253,11 +271,14 @@ class AnswersPage(PaginatedPage):
         answer_count = 0
         for card in self.soup.select(self.card_locator):
             if answer_count == max_items:
+                print(f"Already collected max number of answers: {max_items}")
                 break
 
             answer_soup = card.select_one(self.text_locator)
             if not answer_soup:
+                self.content_error()
                 continue
+
             answer_count += 1
 
             date_soup = card.select_one(self.date_locator)

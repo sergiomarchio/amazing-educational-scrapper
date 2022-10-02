@@ -9,6 +9,10 @@ request:
   # Term to search for
   keyword: smartphone
 
+# Debug mode saves a copy of the failed requests. Log directory to save log files
+debug: True
+log_dir: "logs"
+
 # Max number of products to retrieve. -1 for all the questions
 max-products: 3
 # Max number of questions per product to retrieve. -1 for all the questions

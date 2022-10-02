@@ -14,7 +14,7 @@ def savefile(lines, file_name: str):
     print()
     print(f"Saving file '{file_name}'...")
 
-    with open(file_name, 'w') as f:
+    with open(file_name, 'w', encoding="utf-8") as f:
         f.write(json.dumps(lines))
 
 
