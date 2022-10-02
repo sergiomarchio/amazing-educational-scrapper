@@ -1,7 +1,6 @@
 from abc import abstractmethod
 
 from dateparser.search import search_dates
-from dateparser.date import DateDataParser
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
@@ -82,6 +81,9 @@ class PaginatedPage(Page):
         :return:
         items one by one
         """
+        if max_items == 0:
+            print("no items required...")
+            return
 
         item_count = 0
         for page in self.pages():

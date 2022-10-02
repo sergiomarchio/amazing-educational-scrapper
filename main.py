@@ -20,7 +20,7 @@ def savefile(lines, file_name: str):
 
 def get_questions(result_page: ResultsPage, max_prod=-1, max_q=-1, max_ans_per_q=-1):
     q_and_a = []
-    for product in result_page.items(max_prod):
+    for product in result_page.items_to_end(max_prod):
         for question in product.product_questions(max_q, max_ans_per_q):
             q_and_a.append(question)
 
