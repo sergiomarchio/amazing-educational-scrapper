@@ -1,3 +1,5 @@
+from abc import abstractmethod
+
 from dateparser.search import search_dates
 from dateparser.date import DateDataParser
 from bs4 import BeautifulSoup
@@ -65,6 +67,31 @@ class PaginatedPage(Page):
 
             next_button = next_page.soup.select_one(self.next_button_locator)
 
+    @abstractmethod
+    def items(self, max_items=-1, **kwargs):
+        pass
+
+    def items_to_end(self, max_items=-1, **kwargs):
+        """
+        this method provides the items, navigating the pagination for the current page to the end
+        :param max_items:
+        maximum number of items to be collected.
+        if -1, gets all items available
+        :params kwargs:
+        kwargs required by the items() method
+        :return:
+        items one by one
+        """
+
+        item_count = 0
+        for page in self.pages():
+            if item_count == max_items:
+                break
+
+            for item in page.items(max_items - item_count, **kwargs):
+                yield item
+                item_count += 1
+
 
 class ResultsPage(PaginatedPage):
     """
@@ -72,23 +99,66 @@ class ResultsPage(PaginatedPage):
     """
     next_button_locator = ".s-pagination-next:not(.s-pagination-disabled)"
     product_locator = "[data-component-type='s-search-result']"
-    product_link_locator = "[data-component-type='s-search-result'] h2 a"
+    product_link_locator = "h2 a"
 
-    def question_pages(self):
-        """
-        :return:
-        A list with the first question page for each product in this result page
-        """
+    def items(self, max_items=-1, **kwargs):
         products = self.soup.select(self.product_locator)
-        if products is None:
+        if not products:
             return None
 
-        asin_values = [p.attrs['data-asin'] for p in products]
-        parameters = [
-            f"-/{self.headers['Accept-Language']}/ask/questions/asin/{asin}/ref=ask_dp_dpmw_ql_hza?isAnswered=true"
-            for asin in asin_values]
+        product_count = 0
+        for product in products:
+            if product_count == max_items:
+                break
 
-        return [QuestionsPage(self.base_url, param, self.headers) for param in parameters]
+            product_link = product.select_one(self.product_link_locator)
+
+            if product_link:
+                yield ProductPage(self.base_url, product_link['href'], headers=self.headers)
+                product_count += 1
+
+
+class ProductPage(Page):
+    """
+    Class to model product page
+    """
+    asin_locator = "#ASIN"
+    name_locator = "#productTitle"
+    ratings_count_locator = "#acrCustomerReviewText"
+
+    def product_questions(self, max_questions=-1, max_answers_per_question=-1):
+        """
+        :param max_questions:
+        maximum number of questions to be collected per product.
+        if -1, gets all questions available
+        :param max_answers_per_question:
+        maximum number of answers to be collected per question.
+        if -1, gets all answers available
+        :return:
+        the first question page for this product
+        """
+
+        asin_soup = self.soup.select_one(self.asin_locator)
+        name_soup = self.soup.select_one(self.name_locator)
+        ratings_count_soup = self.soup.select_one(self.ratings_count_locator)
+
+        asin = asin_soup['value'] if name_soup else ""
+        name = name_soup.text.strip() if name_soup else ""
+        ratings_count_text = ratings_count_soup.text if ratings_count_soup else ""
+
+        match = re.search(r"\d+", ratings_count_text)
+        ratings_count = int(match.group()) if match else 0
+
+        question_href = (f"-/{self.headers['Accept-Language']}"
+                         f"/ask/questions/asin/{asin}/ref=ask_dp_dpmw_ql_hza?isAnswered=true")
+
+        for question in QuestionsPage(self.base_url, question_href, headers=self.headers
+                                      ).items_to_end(max_questions, max_answers_per_question=max_answers_per_question):
+
+            question['product_name'] = name
+            question['product_ratings_count'] = ratings_count
+
+            yield question
 
 
 class QuestionsPage(PaginatedPage):
@@ -101,11 +171,11 @@ class QuestionsPage(PaginatedPage):
     votes_locator = ".vote .count"
     question_link_locator = "[id^='question'] a"
 
-    def questions(self, max_questions=-1, max_answers_per_question=-1):
+    def items(self, max_items=-1, max_answers_per_question=-1):
         """
-        :param max_questions:
-        maximum number of questions to be collected in this page.
-        if -1, gets all questions available
+        :param max_items:
+        maximum number of items to retrieve
+        if -1, gets all items available
         :param max_answers_per_question:
         maximum number of answers to be collected per question.
         if -1, gets all answers available
@@ -114,7 +184,7 @@ class QuestionsPage(PaginatedPage):
         """
         question_count = 0
         for card in self.soup.select(self.card_locator):
-            if question_count == max_questions:
+            if question_count == max_items:
                 break
 
             question_soup = card.select_one(self.question_link_locator)
@@ -131,39 +201,16 @@ class QuestionsPage(PaginatedPage):
                 votes_value = 0
 
             answers_page = AnswersPage(self.base_url, question_soup['href'], self.headers)
-            answers = [a for a in answers_page.answers_to_end(max_answers_per_question)]
+            answers = [a for a in answers_page.items_to_end(max_answers_per_question)]
 
             question = {
                 "question": question_text,
                 "votes": votes_value,
-                # "product_name": pr,
-                # "product_ratings_count": pr,
                 "date": answers_page.question_date(),
                 "answers": answers
             }
 
             yield question
-
-    def questions_to_end(self, max_questions=-1, max_answers_per_question=-1):
-        """
-        this method provides the questions, navigating the pagination for the current page to the end
-        :param max_questions:
-        maximum number of questions to be collected.
-        if -1, gets all questions available
-        :param max_answers_per_question:
-        maximum number of answers to be collected per question.
-        if -1, gets all answers available
-        :return:
-        questions one by one
-        """
-        question_count = 0
-        for page in self.pages():
-            if question_count == max_questions:
-                break
-
-            for question in page.questions(max_questions - question_count, max_answers_per_question):
-                yield question
-                question_count += 1
 
 
 class AnswersPage(PaginatedPage):
@@ -193,17 +240,10 @@ class AnswersPage(PaginatedPage):
 
         return self.date_string_from_soup(question_date_soup)
 
-    def answers(self, max_answers=-1):
-        """
-        :param max_answers:
-        maximum number of answers to be returned from this page.
-        if -1, gets all answers available
-        :return:
-        answers one by one for the current page
-        """
+    def items(self, max_items=-1, **kwargs):
         answer_count = 0
         for card in self.soup.select(self.card_locator):
-            if answer_count == max_answers:
+            if answer_count == max_items:
                 break
 
             answer_soup = card.select_one(self.text_locator)
@@ -218,11 +258,9 @@ class AnswersPage(PaginatedPage):
             answer_text = answer_soup.text.strip()
             date_text = self.date_string_from_soup(date_soup)
 
-            is_manufacturer = False
-            is_seller = False
-            if badge_soup:
-                is_manufacturer = "manufacturer" in badge_soup.text.lower()
-                is_seller = "seller" in badge_soup.text.lower()
+            badge_text = badge_soup.text.strip() if badge_soup else ""
+            is_manufacturer = "manufacturer" in badge_text.lower()
+            is_seller = "seller" in badge_text.lower()
 
             upvotes = 0
             downvotes = 0
@@ -236,6 +274,7 @@ class AnswersPage(PaginatedPage):
             answer = {
                 "url": self.url,
                 "answer": answer_text,
+                "badge_text": badge_text,
                 "is_manufacturer": is_manufacturer,
                 "is_seller": is_seller,
                 "date": date_text,
@@ -245,19 +284,3 @@ class AnswersPage(PaginatedPage):
 
             yield answer
 
-    def answers_to_end(self, max_answers):
-        """
-        this method provides the answers, navigating the pagination for the current page to the end
-        :param max_answers:
-        maximum number of answers to be retrieved
-        :return:
-        answers one by one
-        """
-        answer_count = 0
-        for page in self.pages():
-            if answer_count == max_answers:
-                break
-
-            for answer in page.answers(max_answers - answer_count):
-                yield answer
-                answer_count += 1
