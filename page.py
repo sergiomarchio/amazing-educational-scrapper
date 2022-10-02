@@ -1,7 +1,10 @@
+from dateparser.search import search_dates
+from dateparser.date import DateDataParser
+from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
+import re
 import requests
-from bs4 import BeautifulSoup
 
 
 class Page:
@@ -51,6 +54,9 @@ class PaginatedPage(Page):
         if not self.next_button_locator:
             raise AttributeError("PaginatedPage objects must have a next_button_locator attribute!")
 
+        # the first page returned is the same page
+        yield self
+
         next_button = self.soup.select_one(self.next_button_locator)
         while next_button is not None:
             next_page = type(self)(self.base_url, parameters=next_button['href'], headers=self.headers)
@@ -91,44 +97,137 @@ class QuestionsPage(PaginatedPage):
     """
     next_button_locator = ".a-last:not(.a-disabled) a"
 
-    qa_block_locator = ".askTeaserQuestions > .a-fixed-left-grid > .a-fixed-left-grid-inner"
-    votes_locator = "[data-count]"
-    votes_value = "data-count"
-    question_locator = "[data-ask-no-op='{\"metricName\":\"top-question-text-click\"}']"
-    answer_locator = ".a-col-right .a-col-right > span:not(.askInlineAnswers)"
-    more_answers_locator = "[id^='askSeeAllAnswersLink']"
+    card_locator = ".askTeaserQuestions > div"
+    votes_locator = ".vote .count"
+    question_link_locator = "[id^='question'] a"
 
-    def get_questions(self):
+    def questions(self, max_questions=-1, max_answers=-1):
         """
+        :param max_questions:
+        maximum number of questions to be collected in this page.
+        if -1, gets all questions available
+        :param max_answers:
+        maximum number of answers to be collected by this question.
+        if -1, gets all answers available
         :return:
-        A list of all the questions and answers for the current question page
+        all the questions for the current page, one by one, containing all the answers available
         """
-        qa_blocks = self.soup.select(self.qa_block_locator)
-        if qa_blocks is None:
-            return None
+        question_count = 0
+        answer_count = 0
+        for card in self.soup.select(self.card_locator):
+            if question_count == max_questions or answer_count == max_answers:
+                break
 
-        question_list = []
-        for qa_block in qa_blocks:
-            question = qa_block.select_one(self.question_locator)
-            answers = qa_block.select(self.answer_locator)
-            votes = qa_block.select_one(self.votes_locator)
+            question_soup = card.select_one(self.question_link_locator)
+            if not question_soup:
+                continue
+            question_count += 1
 
+            votes_soup = card.select_one(self.votes_locator)
+
+            question_text = question_soup.text.strip()
             try:
-                votes_value = int(votes[self.votes_value])
-            except ValueError:
+                votes_value = int(votes_soup.text)
+            except (AttributeError, ValueError):
                 votes_value = 0
 
-            if question is None or answers is None or len(answers) == 0:
+            answers = []
+            answers_page = AnswersPage(self.base_url, question_soup['href'], self.headers)
+            for page in answers_page.pages():
+                for answer in page.answers(max_answers - answer_count):
+                    answers.append(answer)
+                    answer_count += len(answers)
+
+                if answer_count == max_answers:
+                    break
+
+            question = {
+                "question": question_text,
+                "votes": votes_value,
+                # "product_name": pr,
+                # "product_ratings_count": pr,
+                "date": answers_page.question_date(),
+                "answers": answers
+            }
+
+            yield question
+
+
+class AnswersPage(PaginatedPage):
+    """
+    Class to model answers page:
+    the page that holds answers for one question
+    """
+    next_button_locator = ".a-last:not(.a-disabled) a"
+
+    question_date_locator = ".a-size-large.askWrapText + p"
+    card_locator = "[id^='answer']"
+    text_locator = "span"  # it is the first span
+    date_locator = ".a-spacing-small > span"
+    badge_locator = ".askNewAuthorBadge"
+    votes_locator = ".askVoteAnswerTextWithCount"
+
+    def date_string_from_soup(self, soup, date_format="%Y/%m/%d"):
+        date = search_dates(soup.text, languages=[self.headers['Accept-Language']])[0][1] if soup else None
+        return date.strftime(date_format) if date else ""
+
+    def question_date(self):
+        """
+        :return:
+        the date of the question
+        """
+        question_date_soup = self.soup.select_one(self.question_date_locator)
+
+        return self.date_string_from_soup(question_date_soup)
+
+    def answers(self, max_answers=-1):
+        """
+        :param max_answers:
+        maximum number of answers to be returned from this page.
+        if -1, gets all answers available
+        :return:
+        all answers for the page, one by one
+        """
+        answer_count = 0
+        for card in self.soup.select(self.card_locator):
+            if answer_count == max_answers:
+                break
+
+            answer_soup = card.select_one(self.text_locator)
+            if not answer_soup:
                 continue
+            answer_count += 1
 
-            # The last because if answer is shortened, the last item is the complete answer
-            answer = qa_block.select(self.answer_locator)[-1]
+            date_soup = card.select_one(self.date_locator)
+            badge_soup = card.select_one(self.badge_locator)
+            votes_soup = card.select_one(self.votes_locator)
 
-            question_list.append({'question': question.text.strip(),
-                                  'votes': votes_value,
-                                  'answer': answer.text.strip()})
+            answer_text = answer_soup.text.strip()
+            date_text = self.date_string_from_soup(date_soup)
 
-        print(f"{len(question_list)} results retrieved")
+            is_manufacturer = False
+            is_seller = False
+            if badge_soup:
+                is_manufacturer = "manufacturer" in badge_soup.text.lower()
+                is_seller = "seller" in badge_soup.text.lower()
 
-        return question_list
+            upvotes = 0
+            downvotes = 0
+            if votes_soup:
+                match = re.search(r".*?(?P<upvotes>\d+).*? .*?(?P<allvotes>\d+).*?", votes_soup.text)
+                if match:
+                    votes = match.groupdict()
+                    upvotes = int(votes['upvotes'])
+                    downvotes = int(votes['allvotes']) - upvotes
 
+            answer = {
+                "url": self.url,
+                "answer": answer_text,
+                "is_manufacturer": is_manufacturer,
+                "is_seller": is_seller,
+                "date": date_text,
+                "upvotes": upvotes,
+                "downvotes": downvotes
+            }
+
+            yield answer

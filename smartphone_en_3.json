@@ -1,1 +1,77 @@
-[{"question": "Will this work with AT&T prepaid?", "answer": "You will need to get a nano sim card from AT&T, and if you use their service, there shouldn't be a problem."}, {"question": "Funciona para Argentina?", "answer": "Es desbloqueado"}, {"question": "Will this phone work on the 4g at&t network after they did shut down the 3g last week?", "answer": "Yes it will. It supports 5g"}]
+[
+  {
+    "question": "Will this phone work with Mint mobile",
+    "votes": 0,
+    "date": "2022/05/17",
+    "answers": [
+      {
+        "url": "https://www.amazon.com/ask/questions/Tx102BN4XR7VYHL/ref=ask_ql_ql_al_hza",
+        "answer": "No, not if it is the LTE version.",
+        "is_manufacturer": false,
+        "is_seller": false,
+        "date": "2022/09/08",
+        "upvotes": 0,
+        "downvotes": 1
+      },
+      {
+        "url": "https://www.amazon.com/ask/questions/Tx102BN4XR7VYHL/ref=ask_ql_ql_al_hza",
+        "answer": "Yes.",
+        "is_manufacturer": false,
+        "is_seller": false,
+        "date": "2022/05/17",
+        "upvotes": 1,
+        "downvotes": 0
+      }
+    ]
+  },
+  {
+    "question": "What is best charger block for samsung Galaxy A03s. I recently purchase a phone from cricket but it did not came with charger block?",
+    "votes": 0,
+    "date": "2022/05/25",
+    "answers": [
+      {
+        "url": "https://www.amazon.com/ask/questions/Tx104VZ4DPN3897/ref=ask_ql_ql_al_hza",
+        "answer": "Thank you for your question, we always want you to have the best experience with our products, as such we would recommend that you use a Samsung charger block that is 7.75W or higher.",
+        "is_manufacturer": true,
+        "is_seller": false,
+        "date": "2022/06/01",
+        "upvotes": 0,
+        "downvotes": 0
+      },
+      {
+        "url": "https://www.amazon.com/ask/questions/Tx104VZ4DPN3897/ref=ask_ql_ql_al_hza",
+        "answer": "Any block will work. There is no point buying ones that offer fast charge as this feature is not compatible with the A03 phone",
+        "is_manufacturer": false,
+        "is_seller": false,
+        "date": "2022/05/25",
+        "upvotes": 1,
+        "downvotes": 0
+      }
+    ]
+  },
+  {
+    "question": "Will this phone work in costa rica (latin america)? i see description reads \"us version\" which is confusing me.",
+    "votes": 0,
+    "date": "2022/05/29",
+    "answers": [
+      {
+        "url": "https://www.amazon.com/ask/questions/Tx114SBVEVM0WZ2/ref=ask_ql_ql_al_hza",
+        "answer": "It's International Unlocked just buy a SIM in whichever country and install it.",
+        "is_manufacturer": false,
+        "is_seller": false,
+        "date": "2022/05/30",
+        "upvotes": 1,
+        "downvotes": 0
+      },
+      {
+        "url": "https://www.amazon.com/ask/questions/Tx114SBVEVM0WZ2/ref=ask_ql_ql_al_hza",
+        "answer": "no because they will steal it over there before you get a good chance to use it.  therd werld country.",
+        "is_manufacturer": false,
+        "is_seller": false,
+        "date": "2022/06/27",
+        "upvotes": 0,
+        "downvotes": 2
+      }
+    ]
+  }
+]

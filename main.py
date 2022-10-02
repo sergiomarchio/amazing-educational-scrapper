@@ -23,10 +23,11 @@ def get_questions(result_page: ResultsPage, max_size=0):
     for result_page in result_page.pages():
         for product_question_page in result_page.question_pages():
             for question_page in product_question_page.pages():
-                q_and_a += question_page.get_questions()
+                for question in question_page.questions():
+                    q_and_a.append(question)
 
-                if 0 < max_size <= len(q_and_a):
-                    return q_and_a[:max_size]
+                    if 0 < max_size <= len(q_and_a):
+                        return q_and_a[:max_size]
 
     return q_and_a
 
