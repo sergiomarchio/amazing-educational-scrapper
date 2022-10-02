@@ -1,10 +1,12 @@
 [
   {
+    "id": "question-Tx102BN4XR7VYHL",
     "question": "Will this phone work with Mint mobile",
     "votes": 0,
     "date": "2022/05/17",
     "answers": [
       {
+        "id": "answer-Mx2FFMR9U80827N",
         "url": "https://www.amazon.com/ask/questions/Tx102BN4XR7VYHL/ref=ask_ql_ql_al_hza",
         "answer": "No, not if it is the LTE version.",
         "badge_text": "",
@@ -15,6 +17,7 @@
         "downvotes": 1
       },
       {
+        "id": "answer-Mx154KMO3DCPBDE",
         "url": "https://www.amazon.com/ask/questions/Tx102BN4XR7VYHL/ref=ask_ql_ql_al_hza",
         "answer": "Yes.",
         "badge_text": "",
@@ -25,15 +28,18 @@
         "downvotes": 0
       }
     ],
+    "product_id": "B09MZCQGS5",
     "product_name": "SAMSUNG Galaxy A03s Cell Phone, Factory Unlocked Android Smartphone, 32GB, Triple Lens Camera, Infinity Display Screen, Long Battery Life, Expandable Storage, US Version, Blue",
-    "product_ratings_count": 604
+    "product_ratings_count": 605
   },
   {
+    "id": "question-Tx104VZ4DPN3897",
     "question": "What is best charger block for samsung Galaxy A03s. I recently purchase a phone from cricket but it did not came with charger block?",
     "votes": 0,
     "date": "2022/05/25",
     "answers": [
       {
+        "id": "answer-MxOE8AXJBOFLBR",
         "url": "https://www.amazon.com/ask/questions/Tx104VZ4DPN3897/ref=ask_ql_ql_al_hza",
         "answer": "Thank you for your question, we always want you to have the best experience with our products, as such we would recommend that you use a Samsung charger block that is 7.75W or higher.",
         "badge_text": "Manufacturer",
@@ -44,6 +50,7 @@
         "downvotes": 0
       },
       {
+        "id": "answer-Mx1MP4VTT9ZPH96",
         "url": "https://www.amazon.com/ask/questions/Tx104VZ4DPN3897/ref=ask_ql_ql_al_hza",
         "answer": "Any block will work. There is no point buying ones that offer fast charge as this feature is not compatible with the A03 phone",
         "badge_text": "",
@@ -54,15 +61,18 @@
         "downvotes": 0
       }
     ],
+    "product_id": "B09MZCQGS5",
     "product_name": "SAMSUNG Galaxy A03s Cell Phone, Factory Unlocked Android Smartphone, 32GB, Triple Lens Camera, Infinity Display Screen, Long Battery Life, Expandable Storage, US Version, Blue",
-    "product_ratings_count": 604
+    "product_ratings_count": 605
   },
   {
+    "id": "question-Tx114SBVEVM0WZ2",
     "question": "Will this phone work in costa rica (latin america)? i see description reads \"us version\" which is confusing me.",
     "votes": 0,
     "date": "2022/05/29",
     "answers": [
       {
+        "id": "answer-Mx3U6PSG4GXTLSW",
         "url": "https://www.amazon.com/ask/questions/Tx114SBVEVM0WZ2/ref=ask_ql_ql_al_hza",
         "answer": "It's International Unlocked just buy a SIM in whichever country and install it.",
         "badge_text": "",
@@ -73,6 +83,7 @@
         "downvotes": 0
       },
       {
+        "id": "answer-Mx2U0U2FT9L5K8N",
         "url": "https://www.amazon.com/ask/questions/Tx114SBVEVM0WZ2/ref=ask_ql_ql_al_hza",
         "answer": "no because they will steal it over there before you get a good chance to use it.  therd werld country.",
         "badge_text": "",
@@ -83,211 +94,206 @@
         "downvotes": 2
       }
     ],
+    "product_id": "B09MZCQGS5",
     "product_name": "SAMSUNG Galaxy A03s Cell Phone, Factory Unlocked Android Smartphone, 32GB, Triple Lens Camera, Infinity Display Screen, Long Battery Life, Expandable Storage, US Version, Blue",
-    "product_ratings_count": 604
+    "product_ratings_count": 605
   },
   {
-    "question": "Expandable storage?",
-    "votes": 21,
-    "date": "2021/01/17",
-    "answers": [
-      {
-        "url": "https://www.amazon.com/ask/questions/Tx124JJBVHIP58J/ref=ask_ql_ql_al_hza",
-        "answer": "Thanks for your interest. Yes, the Motorola One 5G Ace supports expandable storage (microSD card up to 1TB.) - Mike",
-        "badge_text": "Manufacturer",
-        "is_manufacturer": true,
-        "is_seller": false,
-        "date": "2021/01/28",
-        "upvotes": 138,
-        "downvotes": 3
-      },
-      {
-        "url": "https://www.amazon.com/ask/questions/Tx124JJBVHIP58J/ref=ask_ql_ql_al_hza",
-        "answer": "It only supports added storage for files like photos, music etc. They did away with letting you add apps to the micro SD card. You can't format it for internal storage for apps which was a colossal mistake since a lot of your space on your internal drive is used up by the Android and their software.",
-        "badge_text": "",
-        "is_manufacturer": false,
-        "is_seller": false,
-        "date": "2022/09/13",
-        "upvotes": 4,
-        "downvotes": 0
-      },
-      {
-        "url": "https://www.amazon.com/ask/questions/Tx124JJBVHIP58J/ref=ask_ql_ql_al_hza",
-        "answer": "Yes",
-        "badge_text": "",
-        "is_manufacturer": false,
-        "is_seller": false,
-        "date": "2021/01/27",
-        "upvotes": 28,
-        "downvotes": 1
-      }
-    ],
-    "product_name": "Motorola One 5G Ace | 2021 | 2-Day battery | Unlocked | Made for US by Motorola | 6/128GB | 48MP Camera | Hazy Silver",
-    "product_ratings_count": 3
-  },
-  {
-    "question": "Does this phone come with Facebook app already installed, and there is no way to get rid of it without rooting it?",
-    "votes": 11,
-    "date": "2021/03/15",
-    "answers": [
-      {
-        "url": "https://www.amazon.com/ask/questions/Tx14EAA0F2E830Y/ref=ask_ql_ql_al_hza",
-        "answer": "Yes, it comes with the Facebook app installed but not prominently displayed.  To get rid of the useless thing, just go to the Play Store and uninstall it.  Then don't forget to go on and get rid of other intrusive and useless stuff, like much of the Google crap which offers to tie you into their infrastructure forever, giving up personal information for the whole time you have the phone.",
-        "badge_text": "",
-        "is_manufacturer": false,
-        "is_seller": false,
-        "date": "2022/04/29",
-        "upvotes": 15,
-        "downvotes": 4
-      },
-      {
-        "url": "https://www.amazon.com/ask/questions/Tx14EAA0F2E830Y/ref=ask_ql_ql_al_hza",
-        "answer": "Thanks for your interest. The Motorola One 5G Ace came with preinstalled Facebook App. - Mike",
-        "badge_text": "Manufacturer",
-        "is_manufacturer": true,
-        "is_seller": false,
-        "date": "2021/03/17",
-        "upvotes": 9,
-        "downvotes": 11
-      },
-      {
-        "url": "https://www.amazon.com/ask/questions/Tx14EAA0F2E830Y/ref=ask_ql_ql_al_hza",
-        "answer": "No. Facebook was installed automatically on mine because my previous phone (LG) came with it and was on my backup which was restored. I was quickly able to delete the crappy thing.",
-        "badge_text": "",
-        "is_manufacturer": false,
-        "is_seller": false,
-        "date": "2021/08/04",
-        "upvotes": 13,
-        "downvotes": 3
-      }
-    ],
-    "product_name": "Motorola One 5G Ace | 2021 | 2-Day battery | Unlocked | Made for US by Motorola | 6/128GB | 48MP Camera | Hazy Silver",
-    "product_ratings_count": 3
-  },
-  {
-    "question": "Does it has active dual sim ?",
-    "votes": 7,
-    "date": "2021/01/12",
-    "answers": [
-      {
-        "url": "https://www.amazon.com/ask/questions/Tx1OZ91CN4EREXI/ref=ask_ql_ql_al_hza",
-        "answer": "No.  However, the Edge+(2022) does support ESIM and so will the newly released Edge(2022).  Typically only select models sold by Motorola offer the dual SIM and none recently to the US versions sold..",
-        "badge_text": "",
-        "is_manufacturer": false,
-        "is_seller": false,
-        "date": "2022/09/26",
-        "upvotes": 0,
-        "downvotes": 0
-      },
-      {
-        "url": "https://www.amazon.com/ask/questions/Tx1OZ91CN4EREXI/ref=ask_ql_ql_al_hza",
-        "answer": "Thanks for your interest. The Motorola One 5G Ace only supports single SIM (1 Nano SIM + 1 microSD). - Mike",
-        "badge_text": "Manufacturer",
-        "is_manufacturer": true,
-        "is_seller": false,
-        "date": "2021/01/28",
-        "upvotes": 17,
-        "downvotes": 0
-      },
-      {
-        "url": "https://www.amazon.com/ask/questions/Tx1OZ91CN4EREXI/ref=ask_ql_ql_al_hza",
-        "answer": "Some different Moto models do offer an active dual sim capability but they're only available on  International versions of the phone.",
-        "badge_text": "",
-        "is_manufacturer": false,
-        "is_seller": false,
-        "date": "2021/11/26",
-        "upvotes": 4,
-        "downvotes": 0
-      }
-    ],
-    "product_name": "Motorola One 5G Ace | 2021 | 2-Day battery | Unlocked | Made for US by Motorola | 6/128GB | 48MP Camera | Hazy Silver",
-    "product_ratings_count": 3
-  },
-  {
-    "question": "Is this device Dual Sim i.e. 2 physical sim slots?",
+    "id": "question-Tx2ZUEKVIR9CNOK",
+    "question": "Headphone jack????",
     "votes": 2,
-    "date": "2022/03/11",
+    "date": "2022/08/13",
     "answers": [
       {
-        "url": "https://www.amazon.com/ask/questions/Tx37N97WJE6A919/ref=ask_ql_ql_al_hza",
-        "answer": "Mine only is only capable of one SIM card.",
-        "badge_text": "",
-        "is_manufacturer": false,
+        "id": "answer-Mx1LON36L6Z6FPJ",
+        "url": "https://www.amazon.com/ask/questions/Tx2ZUEKVIR9CNOK/ref=ask_ql_ql_al_hza",
+        "answer": "Hi Cindy. Yes, the phone has a headphone jack. ^Christian",
+        "badge_text": "Manufacturer",
+        "is_manufacturer": true,
         "is_seller": false,
-        "date": "2022/03/11",
+        "date": "2022/08/13",
         "upvotes": 2,
         "downvotes": 0
       }
     ],
-    "product_name": "SAMSUNG Galaxy S22 Ultra Cell Phone, Factory Unlocked Android Smartphone, 128GB, 8K Camera & Video, Brightest Display Screen, S Pen, Long Battery Life, Fast 4nm Processor, US Version, Phantom Black",
-    "product_ratings_count": 603
+    "product_id": "B09XFJY4N4",
+    "product_name": "TracFone Blu View 2 (2022) 4G LTE Prepaid Smartphone (Locked) - Black - 32GB - Sim Card Included - CDMA",
+    "product_ratings_count": 158
   },
   {
-    "question": "Does the box contain plug point socket as well?",
-    "votes": 1,
-    "date": "2022/03/26",
+    "id": "question-Tx13V7BOS229SJZ",
+    "question": "SafeLink capatable?",
+    "votes": 0,
+    "date": "2022/10/01",
     "answers": [
       {
-        "url": "https://www.amazon.com/ask/questions/Tx138QF9MIA2JAZ/ref=ask_ql_ql_al_hza",
-        "answer": "It does not. Charger is sold separately. I personally bought the 40W Spigen super charger and I love it so far. It is also cheaper then the samsung charger 40w charger.",
-        "badge_text": "",
-        "is_manufacturer": false,
+        "id": "answer-Mx2112LRFR09R6I",
+        "url": "https://www.amazon.com/ask/questions/Tx13V7BOS229SJZ/ref=ask_ql_ql_al_hza",
+        "answer": "Hi Jason. Yes, this phone is compatible with SafeLink.  ^Jacinta",
+        "badge_text": "Manufacturer",
+        "is_manufacturer": true,
         "is_seller": false,
-        "date": "2022/03/26",
-        "upvotes": 0,
-        "downvotes": 0
-      },
-      {
-        "url": "https://www.amazon.com/ask/questions/Tx138QF9MIA2JAZ/ref=ask_ql_ql_al_hza",
-        "answer": "Nope, just wire and it's c type on both ends",
-        "badge_text": "",
-        "is_manufacturer": false,
-        "is_seller": false,
-        "date": "2022/03/26",
+        "date": "2022/10/01",
         "upvotes": 0,
         "downvotes": 0
       }
     ],
-    "product_name": "SAMSUNG Galaxy S22 Ultra Cell Phone, Factory Unlocked Android Smartphone, 128GB, 8K Camera & Video, Brightest Display Screen, S Pen, Long Battery Life, Fast 4nm Processor, US Version, Phantom Black",
-    "product_ratings_count": 603
+    "product_id": "B09XFJY4N4",
+    "product_name": "TracFone Blu View 2 (2022) 4G LTE Prepaid Smartphone (Locked) - Black - 32GB - Sim Card Included - CDMA",
+    "product_ratings_count": 158
   },
   {
-    "question": "I would like to have the green phone that's what I'm interested in did you have the green",
-    "votes": 1,
-    "date": "2022/05/30",
+    "id": "question-Tx17SP7LND2LVC0",
+    "question": "Is this prepaid? I\u2019m sending this to my daughter and I want to know if she can take it out of the box and make a phone call.",
+    "votes": 0,
+    "date": "2022/08/20",
     "answers": [
       {
-        "url": "https://www.amazon.com/ask/questions/Tx1KHD82X4W5DJQ/ref=ask_ql_ql_al_hza",
-        "answer": "Unless youre the one guy in the world who doesnt put a case on their phone, why does it matter? This phone has glass all the way to the top and bottom and halfway down the sides. A drop from 2 feet on the street and its dead.",
-        "badge_text": "",
-        "is_manufacturer": false,
+        "id": "answer-Mx3QG4YJG44MI7J",
+        "url": "https://www.amazon.com/ask/questions/Tx17SP7LND2LVC0/ref=ask_ql_ql_al_hza",
+        "answer": "\u201cHi John, please be informed that this is a prepaid Tracfone Smartphone. ^Loejie\u201d",
+        "badge_text": "Manufacturer",
+        "is_manufacturer": true,
         "is_seller": false,
-        "date": "2022/07/11",
-        "upvotes": 3,
-        "downvotes": 3
+        "date": "2022/08/20",
+        "upvotes": 1,
+        "downvotes": 2
       },
       {
-        "url": "https://www.amazon.com/ask/questions/Tx1KHD82X4W5DJQ/ref=ask_ql_ql_al_hza",
-        "answer": "No I got the Black Phone.",
+        "id": "answer-Mx1FRYCFEGX2JV6",
+        "url": "https://www.amazon.com/ask/questions/Tx17SP7LND2LVC0/ref=ask_ql_ql_al_hza",
+        "answer": "No you have to buy a plan from tracfone.",
         "badge_text": "",
         "is_manufacturer": false,
         "is_seller": false,
-        "date": "2022/06/08",
+        "date": "2022/08/21",
+        "upvotes": 4,
+        "downvotes": 0
+      }
+    ],
+    "product_id": "B09XFJY4N4",
+    "product_name": "TracFone Blu View 2 (2022) 4G LTE Prepaid Smartphone (Locked) - Black - 32GB - Sim Card Included - CDMA",
+    "product_ratings_count": 158
+  },
+  {
+    "id": "question-Tx12IOL3SV2WCG4",
+    "question": "What headphones work with this phone?",
+    "votes": 1,
+    "date": "2022/04/10",
+    "answers": [
+      {
+        "id": "answer-Mx1FREWH0HYBLGR",
+        "url": "https://www.amazon.com/ask/questions/Tx12IOL3SV2WCG4/ref=ask_ql_ql_al_hza",
+        "answer": "Dear Valued Customer. Please know that this phone is compatible with 3.5mm headphone jack. ^Marvin",
+        "badge_text": "Manufacturer",
+        "is_manufacturer": true,
+        "is_seller": false,
+        "date": "2022/04/10",
+        "upvotes": 2,
+        "downvotes": 0
+      },
+      {
+        "id": "answer-MxL7E3LP3NYYTG",
+        "url": "https://www.amazon.com/ask/questions/Tx12IOL3SV2WCG4/ref=ask_ql_ql_al_hza",
+        "answer": "I just used the earphones that came with a Samsung phone purchased a couple years ago. I use them with many devices no problems.",
+        "badge_text": "",
+        "is_manufacturer": false,
+        "is_seller": false,
+        "date": "2022/04/11",
+        "upvotes": 1,
+        "downvotes": 0
+      },
+      {
+        "id": "answer-MxMJ2NCF6CQ18E",
+        "url": "https://www.amazon.com/ask/questions/Tx12IOL3SV2WCG4/ref=ask_ql_ql_al_hza",
+        "answer": "No idea. Haven't activated the phone yet or looked at the manual in any meaningful way.",
+        "badge_text": "",
+        "is_manufacturer": false,
+        "is_seller": false,
+        "date": "2022/04/11",
+        "upvotes": 0,
+        "downvotes": 2
+      }
+    ],
+    "product_id": "B09NWDJQ78",
+    "product_name": "Tracfone Motorola moto g Pure (2021), 32GB, Blue - Prepaid Smartphone (Locked)",
+    "product_ratings_count": 1
+  },
+  {
+    "id": "question-Tx1AAC2DTDV4Y1B",
+    "question": "Can i replace the included sim card with a tracfone gsm at&t sim or a tracfone gsm t-mobile sim ?",
+    "votes": 1,
+    "date": "2022/01/28",
+    "answers": [
+      {
+        "id": "answer-Mx2QUDM82CNS8U6",
+        "url": "https://www.amazon.com/ask/questions/Tx1AAC2DTDV4Y1B/ref=ask_ql_ql_al_hza",
+        "answer": "Hi Billstei. We regret to inform you that the included SIM card could not be replaced since it is already program with the device. ^Kathleen\rCase Status: Closed",
+        "badge_text": "Manufacturer",
+        "is_manufacturer": true,
+        "is_seller": false,
+        "date": "2022/01/28",
+        "upvotes": 3,
+        "downvotes": 6
+      },
+      {
+        "id": "answer-MxI8G3N18K6EPB",
+        "url": "https://www.amazon.com/ask/questions/Tx1AAC2DTDV4Y1B/ref=ask_ql_ql_al_hza",
+        "answer": "according to the Motorola website, this phone is gsm only",
+        "badge_text": "",
+        "is_manufacturer": false,
+        "is_seller": false,
+        "date": "2022/04/22",
+        "upvotes": 0,
+        "downvotes": 0
+      },
+      {
+        "id": "answer-Mx1NFGQCVOGS7EM",
+        "url": "https://www.amazon.com/ask/questions/Tx1AAC2DTDV4Y1B/ref=ask_ql_ql_al_hza",
+        "answer": "NO",
+        "badge_text": "",
+        "is_manufacturer": false,
+        "is_seller": false,
+        "date": "2022/08/09",
+        "upvotes": 0,
+        "downvotes": 0
+      }
+    ],
+    "product_id": "B09NWDJQ78",
+    "product_name": "Tracfone Motorola moto g Pure (2021), 32GB, Blue - Prepaid Smartphone (Locked)",
+    "product_ratings_count": 1
+  },
+  {
+    "id": "question-Tx1UI7G8DKYKSV3",
+    "question": "Does this this come with a phone number? Or will i need to pay additional money for it.",
+    "votes": 1,
+    "date": "2022/04/27",
+    "answers": [
+      {
+        "id": "answer-Mx10N3LQWU3BW5W",
+        "url": "https://www.amazon.com/ask/questions/Tx1UI7G8DKYKSV3/ref=ask_ql_ql_al_hza",
+        "answer": "Hi Sanjay. Thank you for your interest in TracFone Wireless. There is no phone number yet. We need first to activate the phone with service plan that you can purchase on retailer, our website or you can call our customer service. ^ Jennifer",
+        "badge_text": "Manufacturer",
+        "is_manufacturer": true,
+        "is_seller": false,
+        "date": "2022/04/27",
         "upvotes": 1,
         "downvotes": 1
       },
       {
-        "url": "https://www.amazon.com/ask/questions/Tx1KHD82X4W5DJQ/ref=ask_ql_ql_al_hza",
-        "answer": "To JL in SD... some of us enjoy clear phone cases, so the phone color does matter.",
+        "id": "answer-Mx23X774WSJTMSL",
+        "url": "https://www.amazon.com/ask/questions/Tx1UI7G8DKYKSV3/ref=ask_ql_ql_al_hza",
+        "answer": "No when you call the number on the red activation card. They will give you a phone number. If you already have a tracphone you can transfer your number.",
         "badge_text": "",
         "is_manufacturer": false,
         "is_seller": false,
-        "date": "2022/09/15",
-        "upvotes": 0,
+        "date": "2022/05/01",
+        "upvotes": 4,
         "downvotes": 0
       }
     ],
-    "product_name": "SAMSUNG Galaxy S22 Ultra Cell Phone, Factory Unlocked Android Smartphone, 128GB, 8K Camera & Video, Brightest Display Screen, S Pen, Long Battery Life, Fast 4nm Processor, US Version, Phantom Black",
-    "product_ratings_count": 603
+    "product_id": "B09NWDJQ78",
+    "product_name": "Tracfone Motorola moto g Pure (2021), 32GB, Blue - Prepaid Smartphone (Locked)",
+    "product_ratings_count": 1
   }
 ]

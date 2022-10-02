@@ -155,6 +155,7 @@ class ProductPage(Page):
         for question in QuestionsPage(self.base_url, question_href, headers=self.headers
                                       ).items_to_end(max_questions, max_answers_per_question=max_answers_per_question):
 
+            question['product_id'] = asin
             question['product_name'] = name
             question['product_ratings_count'] = ratings_count
 
@@ -169,7 +170,8 @@ class QuestionsPage(PaginatedPage):
 
     card_locator = ".askTeaserQuestions > div"
     votes_locator = ".vote .count"
-    question_link_locator = "[id^='question'] a"
+    question_locator = "[id^='question']"
+    question_link_locator = "a"
 
     def items(self, max_items=-1, max_answers_per_question=-1):
         """
@@ -187,23 +189,29 @@ class QuestionsPage(PaginatedPage):
             if question_count == max_items:
                 break
 
-            question_soup = card.select_one(self.question_link_locator)
+            question_soup = card.select_one(self.question_locator)
             if not question_soup:
                 continue
+
+            question_link_soup = question_soup.select_one(self.question_link_locator)
+            if not question_link_soup:
+                continue
+
             question_count += 1
 
             votes_soup = card.select_one(self.votes_locator)
 
-            question_text = question_soup.text.strip()
+            question_text = question_link_soup.text.strip()
             try:
                 votes_value = int(votes_soup.text)
             except (AttributeError, ValueError):
                 votes_value = 0
 
-            answers_page = AnswersPage(self.base_url, question_soup['href'], self.headers)
+            answers_page = AnswersPage(self.base_url, question_link_soup['href'], self.headers)
             answers = [a for a in answers_page.items_to_end(max_answers_per_question)]
 
             question = {
+                "id": question_soup['id'],
                 "question": question_text,
                 "votes": votes_value,
                 "date": answers_page.question_date(),
@@ -272,6 +280,7 @@ class AnswersPage(PaginatedPage):
                     downvotes = int(votes['allvotes']) - upvotes
 
             answer = {
+                "id": card['id'],
                 "url": self.url,
                 "answer": answer_text,
                 "badge_text": badge_text,
