@@ -9,5 +9,7 @@ request:
   # Term to search for
   keyword: smartphone
 
-# Max number of questions to retrieve. 0 for all the questions
-max-output: 3
+# Max number of questions to retrieve. -1 for all the questions
+max-questions: 3
+# Max number of answers per question to retrieve. -1 for all the answers
+max-answers-per-question: 3

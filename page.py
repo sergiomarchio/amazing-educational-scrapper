@@ -101,21 +101,20 @@ class QuestionsPage(PaginatedPage):
     votes_locator = ".vote .count"
     question_link_locator = "[id^='question'] a"
 
-    def questions(self, max_questions=-1, max_answers=-1):
+    def questions(self, max_questions=-1, max_answers_per_question=-1):
         """
         :param max_questions:
         maximum number of questions to be collected in this page.
         if -1, gets all questions available
-        :param max_answers:
-        maximum number of answers to be collected by this question.
+        :param max_answers_per_question:
+        maximum number of answers to be collected per question.
         if -1, gets all answers available
         :return:
-        all the questions for the current page, one by one, containing all the answers available
+        questions one by one for the current page
         """
         question_count = 0
-        answer_count = 0
         for card in self.soup.select(self.card_locator):
-            if question_count == max_questions or answer_count == max_answers:
+            if question_count == max_questions:
                 break
 
             question_soup = card.select_one(self.question_link_locator)
@@ -131,15 +130,8 @@ class QuestionsPage(PaginatedPage):
             except (AttributeError, ValueError):
                 votes_value = 0
 
-            answers = []
             answers_page = AnswersPage(self.base_url, question_soup['href'], self.headers)
-            for page in answers_page.pages():
-                for answer in page.answers(max_answers - answer_count):
-                    answers.append(answer)
-                    answer_count += len(answers)
-
-                if answer_count == max_answers:
-                    break
+            answers = [a for a in answers_page.answers_to_end(max_answers_per_question)]
 
             question = {
                 "question": question_text,
@@ -151,6 +143,27 @@ class QuestionsPage(PaginatedPage):
             }
 
             yield question
+
+    def questions_to_end(self, max_questions=-1, max_answers_per_question=-1):
+        """
+        this method provides the questions, navigating the pagination for the current page to the end
+        :param max_questions:
+        maximum number of questions to be collected.
+        if -1, gets all questions available
+        :param max_answers_per_question:
+        maximum number of answers to be collected per question.
+        if -1, gets all answers available
+        :return:
+        questions one by one
+        """
+        question_count = 0
+        for page in self.pages():
+            if question_count == max_questions:
+                break
+
+            for question in page.questions(max_questions - question_count, max_answers_per_question):
+                yield question
+                question_count += 1
 
 
 class AnswersPage(PaginatedPage):
@@ -186,7 +199,7 @@ class AnswersPage(PaginatedPage):
         maximum number of answers to be returned from this page.
         if -1, gets all answers available
         :return:
-        all answers for the page, one by one
+        answers one by one for the current page
         """
         answer_count = 0
         for card in self.soup.select(self.card_locator):
@@ -231,3 +244,20 @@ class AnswersPage(PaginatedPage):
             }
 
             yield answer
+
+    def answers_to_end(self, max_answers):
+        """
+        this method provides the answers, navigating the pagination for the current page to the end
+        :param max_answers:
+        maximum number of answers to be retrieved
+        :return:
+        answers one by one
+        """
+        answer_count = 0
+        for page in self.pages():
+            if answer_count == max_answers:
+                break
+
+            for answer in page.answers(max_answers - answer_count):
+                yield answer
+                answer_count += 1
