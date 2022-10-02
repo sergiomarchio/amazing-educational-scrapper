@@ -61,7 +61,6 @@ class PaginatedPage(Page):
         next_button = self.soup.select_one(self.next_button_locator)
         while next_button is not None:
             next_page = type(self)(self.base_url, parameters=next_button['href'], headers=self.headers)
-            # next_page.soup    # load soup once
             yield next_page
 
             next_button = next_page.soup.select_one(self.next_button_locator)
