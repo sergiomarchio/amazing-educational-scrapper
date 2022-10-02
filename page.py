@@ -36,27 +36,37 @@ class Page:
         return BeautifulSoup(r.content, 'html.parser')
 
 
-class ResultsPage(Page):
+class PaginatedPage(Page):
     """
-    Class to model results page
+    Class to model paginated pages:
+    i.e. pages that have a "next" button with more results
     """
-    next_button_locator = ".s-pagination-next:not(.s-pagination-disabled)"
-    product_locator = "[data-component-type='s-search-result']"
-    product_link_locator = "[data-component-type='s-search-result'] h2 a"
+    next_button_locator = None
 
     def pages(self):
         """
         :return:
         the next results page until there are no more pages
         """
+        if not self.next_button_locator:
+            raise AttributeError("PaginatedPage objects must have a next_button_locator attribute!")
+
         next_button = self.soup.select_one(self.next_button_locator)
         while next_button is not None:
-            parameters = urljoin(self.base_url, next_button['href'])
-            next_page = ResultsPage(self.base_url, parameters, self.headers)
-            next_page.soup    # load soup once
+            next_page = type(self)(self.base_url, parameters=next_button['href'], headers=self.headers)
+            # next_page.soup    # load soup once
             yield next_page
 
             next_button = next_page.soup.select_one(self.next_button_locator)
+
+
+class ResultsPage(PaginatedPage):
+    """
+    Class to model results page
+    """
+    next_button_locator = ".s-pagination-next:not(.s-pagination-disabled)"
+    product_locator = "[data-component-type='s-search-result']"
+    product_link_locator = "[data-component-type='s-search-result'] h2 a"
 
     def question_pages(self):
         """
@@ -75,7 +85,7 @@ class ResultsPage(Page):
         return [QuestionsPage(self.base_url, param, self.headers) for param in parameters]
 
 
-class QuestionsPage(Page):
+class QuestionsPage(PaginatedPage):
     """
     Class to model questions page
     """
@@ -87,20 +97,6 @@ class QuestionsPage(Page):
     question_locator = "[data-ask-no-op='{\"metricName\":\"top-question-text-click\"}']"
     answer_locator = ".a-col-right .a-col-right > span:not(.askInlineAnswers)"
     more_answers_locator = "[id^='askSeeAllAnswersLink']"
-
-    def pages(self):
-        """
-        :return:
-        The next question page until there are no more pages
-        """
-        next_button = self.soup.select_one(self.next_button_locator)
-        while next_button is not None:
-            parameters = urljoin(self.base_url, next_button['href'])
-            next_question = QuestionsPage(self.base_url, parameters, self.headers)
-            next_question.soup    # load soup once
-            yield next_question
-
-            next_button = next_question.soup.select_one(self.next_button_locator)
 
     def get_questions(self):
         """
