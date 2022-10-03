@@ -4,15 +4,25 @@ from pathlib import Path
 from config import config
 
 
-def save_log(content):
+def save_debug(content):
     if config['debug']:
-        log_dir = config['log_dir']
+        log_dir = config['debug-dir']
         Path(log_dir).mkdir(exist_ok=True)
 
         filename = Path(log_dir, f'{datetime.now().strftime("%Y%m%d_%H%M%S")}.txt')
         with open(str(filename), 'w', encoding="utf-8") as f:
-            print("Saving")
+            Logger.log("Saving")
             f.write(content)
 
-        print(f"Saved log file {filename}")
-        print()
+        Logger.log(f"Saved debug file {filename}")
+        Logger.log()
+
+
+class Logger:
+    filename = config['log-file']
+
+    @staticmethod
+    def log(line: str = ""):
+        with open(Logger.filename, 'a', encoding="utf-8") as f:
+            f.write(line + "\n")
+            print(line)

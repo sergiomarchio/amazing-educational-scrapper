@@ -8,7 +8,7 @@ import re
 import requests
 
 from config import config
-from log import save_log
+from log import save_debug, Logger
 from utils import nap
 
 
@@ -40,8 +40,8 @@ class Page:
 
     def get_soup(self):
         for i in range(1, config['request-attempts'] + 1):
-            print(f"{i}{'st' if i == 1 else 'nd' if i == 2 else 'rd' if i == 3 else 'th'}"
-                  f" attempt of request to {self.url}")
+            Logger.log(f"{i}{'st' if i == 1 else 'nd' if i == 2 else 'rd' if i == 3 else 'th'}"
+                       f" attempt of request to {self.url}")
 
             r = requests.get(self.url, headers=self.headers)
 
@@ -54,9 +54,9 @@ class Page:
         """
         When the page content required is not present, performs the logging if log setting is on
         """
-        print()
-        print(f"Failed request for {self.url}")
-        save_log(self.soup.prettify())
+        Logger.log()
+        Logger.log(f"Failed request for {self.url}")
+        save_debug(self.soup.prettify())
 
 
 class PaginatedPage(Page):
@@ -101,7 +101,7 @@ class PaginatedPage(Page):
         items one by one
         """
         if max_items == 0:
-            print("no items required...")
+            Logger.log("no items required...")
             return
 
         item_count = 0
@@ -110,7 +110,7 @@ class PaginatedPage(Page):
             page_count += 1
 
             if item_count == max_items:
-                print(f"Already collected max number of items: {max_items}")
+                Logger.log(f"Already collected max number of items: {max_items}")
                 break
 
             for item in page.items(max_items - item_count, **kwargs):
@@ -135,7 +135,7 @@ class ResultsPage(PaginatedPage):
         product_count = 0
         for product in products:
             if product_count == max_items:
-                print(f"Already collected max number of products: {max_items}")
+                Logger.log(f"Already collected max number of products: {max_items}")
                 break
 
             product_link = product.select_one(self.product_link_locator)
@@ -222,7 +222,7 @@ class QuestionsPage(PaginatedPage):
         question_count = 0
         for card in self.soup.select(self.card_locator):
             if question_count == max_items:
-                print(f"Already collected max number of questions: {max_items}")
+                Logger.log(f"Already collected max number of questions: {max_items}")
                 break
 
             question_soup = card.select_one(self.question_locator)
@@ -286,7 +286,7 @@ class AnswersPage(PaginatedPage):
         answer_count = 0
         for card in self.soup.select(self.card_locator):
             if answer_count == max_items:
-                print(f"Already collected max number of answers: {max_items}")
+                Logger.log(f"Already collected max number of answers: {max_items}")
                 break
 
             answer_soup = card.select_one(self.text_locator)

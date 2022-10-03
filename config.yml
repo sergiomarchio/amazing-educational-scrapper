@@ -9,9 +9,11 @@ request:
   # Term to search for
   keyword: smartphone
 
-# Debug mode saves a copy of the failed requests. Log directory to save log files
+# Debug mode saves a copy of the failed requests. Debug log directory to save debug files
 debug: True
-log_dir: "logs"
+debug-dir: "debug_logs"
+# file to save output
+log-file: "out.log"
 
 # Number of attempts to retry a failed request, and seconds to wait until retry
 request-attempts: 3

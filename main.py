@@ -3,18 +3,19 @@ import json
 import traceback
 
 from config import config
+from log import Logger
 from page import ResultsPage
 from utils import nap
 
 
 def savefile(lines, file_name: str, file_format="json"):
     if file_format != "json":
-        print(f"Format {file_format} not yet available...")
+        Logger.log(f"Format {file_format} not yet available...")
 
     file_name += ".json"
 
-    print()
-    print(f"Saving file '{file_name}'...")
+    Logger.log()
+    Logger.log(f"Saving file '{file_name}'...")
 
     with open(file_name, 'w', encoding="utf-8") as f:
         f.write(json.dumps(lines))
@@ -32,17 +33,17 @@ def save_q_and_a(base_name: str, result_page: ResultsPage, max_prod=-1, max_q_pe
             if page_count != page_counter:
                 page_counter = page_count
                 savefile(q_and_a, f"{base_name}_p{page_count:03}")
-                print(f"Saved page {page_count:03}...")
+                Logger.log(f"Saved page {page_count:03}...")
                 q_and_a = []
 
             for question in product.product_questions(max_q_per_prod, max_ans_per_q):
                 q_and_a.append(question)
 
     except Exception as e:
-        print("Exception while getting Q&A! ", e)
-        print(traceback.format_exc())
+        Logger.log("Exception while getting Q&A! ", e)
+        Logger.log(traceback.format_exc())
         suffix = "_error"
-        print("Saving remains...")
+        Logger.log("Saving remains...")
 
     savefile(q_and_a, f"{base_name}_p{page_counter:03}{suffix}")
 
@@ -105,14 +106,13 @@ if __name__ == '__main__':
                                             f"_{max_answers_per_question}"
                                             )
 
-    print("Welcome to Amazon Q&A scrapper")
-    print()
-    print(f"Searching for '{request['keyword']}' in '{headers['Accept-Language']}' language")
-    print(f"Aiming to retrieve {'max' if max_answers_per_question == -1 else max_answers_per_question} "
-          f"answers per question, {'max' if max_questions_per_product == -1 else max_questions_per_product} "
-          f"question per product, in {'max' if max_products == -1 else max_products} products.")
-    print(f"Results are going to be saved to '{filename}'")
-    print()
+    Logger.log("Welcome to Amazon Q&A scrapper")
+    Logger.log()
+    Logger.log(f"Searching for '{request['keyword']}' in '{headers['Accept-Language']}' language")
+    Logger.log(f"Aiming to retrieve {'max' if max_answers_per_question == -1 else max_answers_per_question} "
+               f"answers per question, {'max' if max_questions_per_product == -1 else max_questions_per_product} "
+               f"question per product, in {'max' if max_products == -1 else max_products} products.")
+    Logger.log()
 
     results_page = ResultsPage(request['url-base'],
                                request['parameters'].format(keyword=request['keyword']),
