@@ -1,13 +1,10 @@
 import argparse
 import json
-import yaml
+import time
 
+from config import config
 from page import ResultsPage
-
-
-def read_conf():
-    with open('config.yml', 'r') as f:
-        return yaml.safe_load(f)
+from utils import nap
 
 
 def savefile(lines, file_name: str):
@@ -21,6 +18,7 @@ def savefile(lines, file_name: str):
 def get_questions(result_page: ResultsPage, max_prod=-1, max_q=-1, max_ans_per_q=-1):
     q_and_a = []
     for product in result_page.items_to_end(max_prod):
+        nap(3, "fetching next product")
         for question in product.product_questions(max_q, max_ans_per_q):
             q_and_a.append(question)
 
@@ -28,8 +26,6 @@ def get_questions(result_page: ResultsPage, max_prod=-1, max_q=-1, max_ans_per_q
 
 
 if __name__ == '__main__':
-    config = read_conf()
-
     # Getting data from config file
     request = config['request']
     headers = config['request-headers']

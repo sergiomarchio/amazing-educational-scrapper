@@ -8,6 +8,7 @@ import re
 import requests
 
 from log import save_log
+from utils import nap
 
 
 class Page:
@@ -70,6 +71,7 @@ class PaginatedPage(Page):
 
         next_button = self.soup.select_one(self.next_button_locator)
         while next_button is not None:
+            nap(1, "getting next page")
             next_page = type(self)(self.base_url, parameters=next_button['href'], headers=self.headers)
             yield next_page
 
