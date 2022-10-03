@@ -1,13 +1,18 @@
 import argparse
 import json
-import time
+import traceback
 
 from config import config
 from page import ResultsPage
 from utils import nap
 
 
-def savefile(lines, file_name: str):
+def savefile(lines, file_name: str, file_format="json"):
+    if file_format != "json":
+        print(f"Format {file_format} not yet available...")
+
+    file_name += ".json"
+
     print()
     print(f"Saving file '{file_name}'...")
 
@@ -15,11 +20,43 @@ def savefile(lines, file_name: str):
         f.write(json.dumps(lines))
 
 
-def get_questions(result_page: ResultsPage, max_prod=-1, max_q=-1, max_ans_per_q=-1):
+def save_q_and_a(base_name: str, result_page: ResultsPage, max_prod=-1, max_q_per_prod=-1, max_ans_per_q=-1):
+    """
+    Saves q & a checkpoints per results page
+    """
+    page_counter = 1
+    suffix = ""
     q_and_a = []
-    for product in result_page.items_to_end(max_prod):
+    try:
+        for product, page_count in result_page.items_to_end(max_prod):
+            if page_count != page_counter:
+                page_counter = page_count
+                savefile(q_and_a, f"{base_name}_p{page_count:03}")
+                print(f"Saved page {page_count:03}...")
+                q_and_a = []
+
+            for question in product.product_questions(max_q_per_prod, max_ans_per_q):
+                q_and_a.append(question)
+
+    except Exception as e:
+        print("Exception while getting Q&A! ", e)
+        print(traceback.format_exc())
+        suffix = "_error"
+        print("Saving remains...")
+
+    savefile(q_and_a, f"{base_name}_p{page_counter:03}{suffix}")
+
+
+def get_questions(result_page: ResultsPage, max_prod=-1, max_q_per_prod=-1, max_ans_per_q=-1):
+    """
+    Gets Q&A and returns a list with the fetched results
+    :return:
+    q & a list
+    """
+    q_and_a = []
+    for product, page_count in result_page.items_to_end(max_prod):
         nap(3, "fetching next product")
-        for question in product.product_questions(max_q, max_ans_per_q):
+        for question in product.product_questions(max_q_per_prod, max_ans_per_q):
             q_and_a.append(question)
 
     return q_and_a
@@ -66,7 +103,7 @@ if __name__ == '__main__':
                                             f"_{max_products}"
                                             f"_{max_questions_per_product}"
                                             f"_{max_answers_per_question}"
-                                            f".json")
+                                            )
 
     print("Welcome to Amazon Q&A scrapper")
     print()
@@ -81,8 +118,7 @@ if __name__ == '__main__':
                                request['parameters'].format(keyword=request['keyword']),
                                headers)
 
-    results = get_questions(results_page, max_products, max_questions_per_product, max_answers_per_question)
-    print()
-    print(f"{len(results)} results saved.")
-
-    savefile(results, filename)
+    save_q_and_a(filename, results_page,
+                 max_prod=max_products,
+                 max_q_per_prod=max_questions_per_product,
+                 max_ans_per_q=max_answers_per_question)

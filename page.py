@@ -7,6 +7,7 @@ from urllib.parse import urljoin
 import re
 import requests
 
+from config import config
 from log import save_log
 from utils import nap
 
@@ -38,9 +39,16 @@ class Page:
         return self._soup
 
     def get_soup(self):
-        print(f"making request to {self.url}")
-        r = requests.get(self.url, headers=self.headers)
-        return BeautifulSoup(r.content, 'html.parser')
+        for i in range(1, config['request-attempts'] + 1):
+            print(f"{i}{'st' if i == 1 else 'nd' if i == 2 else 'rd' if i == 3 else 'th'}"
+                  f" attempt of request to {self.url}")
+
+            r = requests.get(self.url, headers=self.headers)
+
+            if 200 <= r.status_code < 400:
+                return BeautifulSoup(r.content, 'html.parser')
+
+            nap(config['nap-request'], "making next request attempt")
 
     def content_error(self):
         """
@@ -97,13 +105,16 @@ class PaginatedPage(Page):
             return
 
         item_count = 0
+        page_count = 0
         for page in self.pages():
+            page_count += 1
+
             if item_count == max_items:
                 print(f"Already collected max number of items: {max_items}")
                 break
 
             for item in page.items(max_items - item_count, **kwargs):
-                yield item
+                yield item, page_count
                 item_count += 1
 
 
@@ -174,8 +185,10 @@ class ProductPage(Page):
         question_href = (f"-/{self.headers['Accept-Language']}"
                          f"/ask/questions/asin/{asin}/ref=ask_dp_dpmw_ql_hza?isAnswered=true")
 
-        for question in QuestionsPage(self.base_url, question_href, headers=self.headers
-                                      ).items_to_end(max_questions, max_answers_per_question=max_answers_per_question):
+        questions_page = QuestionsPage(self.base_url, question_href, headers=self.headers)
+
+        for question, page_count in questions_page.items_to_end(max_questions,
+                                                                max_answers_per_question=max_answers_per_question):
 
             question['product_id'] = asin
             question['product_name'] = name
@@ -229,7 +242,7 @@ class QuestionsPage(PaginatedPage):
                 votes_value = 0
 
             answers_page = AnswersPage(self.base_url, question_link_soup['href'], self.headers)
-            answers = [a for a in answers_page.items_to_end(max_answers_per_question)]
+            answers = [a for a, page_count in answers_page.items_to_end(max_answers_per_question)]
 
             question = {
                 "id": question_soup['id'],
