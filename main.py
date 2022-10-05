@@ -31,9 +31,9 @@ def save_q_and_a(base_name: str, result_page: ResultsPage, max_prod=-1, max_q_pe
     try:
         for product, page_count in result_page.items_to_end(max_prod):
             if page_count != page_counter:
+                savefile(q_and_a, f"{base_name}_p{page_counter:03}")
+                Logger.log(f"Saved page {page_counter:03}...")
                 page_counter = page_count
-                savefile(q_and_a, f"{base_name}_p{page_count:03}")
-                Logger.log(f"Saved page {page_count:03}...")
                 q_and_a = []
 
             for question in product.product_questions(max_q_per_prod, max_ans_per_q):
