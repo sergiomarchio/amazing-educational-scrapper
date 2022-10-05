@@ -23,7 +23,7 @@ def savefile(lines, file_name: str, file_format="json"):
 
 def save_q_and_a(base_name: str, result_page: ResultsPage, max_prod=-1, max_q_per_prod=-1, max_ans_per_q=-1):
     """
-    Saves q & a checkpoints per results page
+    Saves q & a checkpoints per each results page
     """
     page_counter = 1
     suffix = ""
