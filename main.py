@@ -110,9 +110,10 @@ if __name__ == '__main__':
     Logger.log("Welcome to Amazon Q&A scrapper")
     Logger.log()
     Logger.log(f"Searching for '{request['keyword']}' in '{headers['Accept-Language']}' language")
-    Logger.log(f"Aiming to retrieve {'max' if max_answers_per_question == -1 else max_answers_per_question} "
-               f"answers per question, {'max' if max_questions_per_product == -1 else max_questions_per_product} "
-               f"question per product, in {'max' if max_products == -1 else max_products} products.")
+    Logger.log(f"Aiming to retrieve"
+               f" {'max' if max_answers_per_question == -1 else max_answers_per_question} answers per question"
+               f", {'max' if max_questions_per_product == -1 else max_questions_per_product} question per product"
+               f", {'max' if max_products == -1 else max_products} products.")
     Logger.log()
 
     results_page = ResultsPage(request['url-base'],
