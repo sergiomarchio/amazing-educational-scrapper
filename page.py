@@ -6,6 +6,7 @@ from urllib.parse import urljoin
 
 import re
 import requests
+from requests import HTTPError
 
 from config import config
 from log import save_debug, Logger
@@ -39,7 +40,9 @@ class Page:
         return self._soup
 
     def get_soup(self):
-        for i in range(1, config['request-attempts'] + 1):
+        attempt_number = config['request-attempts']
+
+        for i in range(1, attempt_number + 1):
             Logger.log(f"{i}{'st' if i == 1 else 'nd' if i == 2 else 'rd' if i == 3 else 'th'}"
                        f" attempt of request to {self.url}")
 
@@ -48,7 +51,11 @@ class Page:
             if 200 <= r.status_code < 400:
                 return BeautifulSoup(r.content, 'html.parser')
 
+            Logger.log(f"Request status code: {r.status_code}")
+
             nap(config['nap-request'], "making next request attempt")
+
+        raise HTTPError(f"Request still failing after {attempt_number} attempts")
 
     def content_error(self):
         """
