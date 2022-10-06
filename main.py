@@ -37,7 +37,7 @@ def save_product_ids(base_name: str, result_page: ResultsPage, max_pag=-1, max_p
     prod_ids = []
     try:
         for product, page_count in result_page.items_to_end(max_prod):
-            if page_counter > max_pages:
+            if page_counter > max_pages >= 0:
                 Logger.log(f"Maximum number of pages reached! ({max_pag})")
                 break
 
@@ -64,7 +64,7 @@ def save_q_and_a(base_name: str, result_page: ResultsPage,
     q_and_a = []
     try:
         for product, page_count in result_page.items_to_end(max_prod):
-            if page_counter > max_pages:
+            if page_counter > max_pages >= 0:
                 Logger.log(f"Maximum number of pages reached! ({max_pag})")
                 break
 
@@ -163,8 +163,6 @@ if __name__ == '__main__':
         filename = (f"prod_ids"
                     f"_{headers['Accept-Language']}"
                     f"_{max_products}"
-                    f"_{max_questions_per_product}"
-                    f"_{max_answers_per_question}"
                     )
     elif not scrap_prod_ids:
         filename = (f"{request['keyword'].replace(' ', '_')}"
