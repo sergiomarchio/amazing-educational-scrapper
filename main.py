@@ -76,8 +76,8 @@ def save_q_and_a_from_pids(base_url: str, headers, filename: str, max_prod=-1, m
     if max_prod > 0:
         remaining_ids = remaining_ids[:max_prod]
 
-    suffix = ""
     for prod_id in remaining_ids:
+        suffix = ""
         q_and_a = []
         try:
             product_page = ProductPage.from_product_id(base_url=base_url, product_id=prod_id, headers=headers)
