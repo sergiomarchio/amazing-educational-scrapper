@@ -1,12 +1,11 @@
 from abc import abstractmethod
-
 from dateparser.search import search_dates
 from bs4 import BeautifulSoup
+from requests import HTTPError
 from urllib.parse import urljoin
 
 import re
 import requests
-from requests import HTTPError
 
 from config import config
 from log import save_debug, Logger
@@ -161,6 +160,15 @@ class ProductPage(Page):
     asin_locator = "#ASIN"
     name_locator = "#productTitle"
     ratings_count_locator = "#acrCustomerReviewText"
+
+    @staticmethod
+    def from_product_id(base_url: str, product_id: str, headers):
+        """
+        :return:
+        a new ProductPage object corresponding to the provided product id
+        """
+        params = f"/dp/{product_id}/"
+        return ProductPage(base_url=base_url, parameters=params, headers=headers)
 
     def product_questions(self, max_questions=-1, max_answers_per_question=-1):
         """

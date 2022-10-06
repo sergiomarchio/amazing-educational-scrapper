@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import argparse
 import json
 import re
@@ -5,15 +7,16 @@ import traceback
 
 from config import config
 from log import Logger
-from page import ResultsPage
+from page import ResultsPage, ProductPage
 from utils import nap
 
 
-def savefile(lines, file_name: str, file_format="json"):
+def savefile(lines, file_name: str, file_format="json", directory: str = ""):
     if file_format not in ('json', 'txt'):
         Logger.log(f"Format {file_format} not yet available...")
 
     file_name += f".{file_format}"
+    file = str(Path(directory).joinpath(file_name))
 
     Logger.log()
     Logger.log(f"Saving file '{file_name}'...")
@@ -50,7 +53,47 @@ def save_product_ids(base_name: str, result_page: ResultsPage, max_pag=-1, max_p
         suffix = "_error"
         Logger.log("Saving remains...")
 
-    savefile(prod_ids, f"{base_name}{suffix}", file_format='txt')
+    savefile(prod_ids, f"{base_name}{suffix}", file_format='txt', directory='out')
+
+
+def save_q_and_a_from_pids(base_url: str, headers, filename: str, max_prod=-1, max_q_per_prod=-1, max_ans_per_q=-1):
+    """
+    Saves q & a from each product in a separate file
+    """
+    saved_ids_file = 'saved_ids.txt'
+    saved_ids = []
+
+    if Path(saved_ids_file).exists():
+        with open(saved_ids_file, 'r') as f:
+            saved_ids = f.read().split('\n')
+
+    with open(filename, 'r') as f:
+        prod_ids = f.read().split('\n')
+
+    # Remove ids already saved
+    remaining_ids = [pid for pid in prod_ids if pid not in saved_ids]
+
+    if max_prod > 0:
+        remaining_ids = remaining_ids[:max_prod]
+
+    suffix = ""
+    for prod_id in remaining_ids:
+        q_and_a = []
+        try:
+            product_page = ProductPage.from_product_id(base_url=base_url, product_id=prod_id, headers=headers)
+            for question in product_page.product_questions(max_q_per_prod, max_ans_per_q):
+                q_and_a.append(question)
+
+            with open(saved_ids_file, 'a') as f:
+                f.write(prod_id + '\n')
+
+        except Exception as e:
+            Logger.log(f"Exception while getting Q&A for product {prod_id}! ", e)
+            Logger.log(traceback.format_exc())
+            suffix = "_error"
+            Logger.log("Saving remains...")
+
+        savefile(q_and_a, f"{prod_id}{suffix}", file_format='json')
 
 
 def save_q_and_a(base_name: str, result_page: ResultsPage,
@@ -158,13 +201,14 @@ if __name__ == '__main__':
         scrap_prod_ids = args.scrap_prod_ids
 
     # File to save output
-    filename = None
     if save_prod_ids:
         filename = (f"prod_ids"
                     f"_{headers['Accept-Language']}"
                     f"_{max_products}"
                     )
-    elif not scrap_prod_ids:
+    elif scrap_prod_ids:
+        filename = scrap_prod_ids
+    else:
         filename = (f"{request['keyword'].replace(' ', '_')}"
                     f"_{headers['Accept-Language']}"
                     f"_{max_products}"
@@ -192,7 +236,10 @@ if __name__ == '__main__':
                          max_pag=max_pages,
                          max_prod=max_products)
     elif scrap_prod_ids:
-        pass
+        save_q_and_a_from_pids(base_url=request['url-base'], headers=headers, filename=filename,
+                               max_prod=max_products,
+                               max_q_per_prod=max_questions_per_product,
+                               max_ans_per_q=max_answers_per_question)
     else:
         save_q_and_a(filename, results_page,
                      max_pag=max_pages,

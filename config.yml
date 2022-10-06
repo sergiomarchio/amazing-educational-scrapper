@@ -29,7 +29,7 @@ max-questions-per-product: 3
 max-answers-per-question: 3
 
 # Flag to determine if the scrapper will only save the product ids
-save-prod-ids: True
+save-prod-ids: False
 # If this parameter is set, the value is the filename from where the scrapper will take the product ids
 # and will not run in sequential (default) mode
-scrap-prod-ids:
+scrap-prod-ids: prod_ids.txt
