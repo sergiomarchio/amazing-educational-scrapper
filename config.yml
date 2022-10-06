@@ -19,7 +19,9 @@ log-file: "out.log"
 request-attempts: 3
 nap-request: 60
 
-# Max number of products to retrieve. -1 for all the questions
+# Max number of pages to navigate. -1 for all the pages
+max-pages: 3
+# Max number of products to retrieve. -1 for all the products
 max-products: 3
 # Max number of questions per product to retrieve. -1 for all the questions
 max-questions-per-product: 3
