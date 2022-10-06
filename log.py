@@ -22,7 +22,8 @@ class Logger:
     filename = config['log-file']
 
     @staticmethod
-    def log(line: str = ""):
+    def log(*lines: str):
         with open(Logger.filename, 'a', encoding="utf-8") as f:
-            f.write(line + "\n")
-            print(line)
+            str_lines = "".join([str(line) for line in lines])
+            f.write(str_lines + "\n")
+            print(str_lines)
