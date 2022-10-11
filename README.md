@@ -1,11 +1,11 @@
-# Amazon Question & Answer Educational Scrapper
+# Amazing Question & Answer Educational Scrapper
 
 > Disclaimer: This project is intended for educational purposes only.
 
 
 ## Brief description
 
-This project implements a web scrapper to get Questions and Answers from amazon website.
+This project implements a web scrapper to get Questions and Answers from Amazing ecommerce website.
 The output is a JSON file with a list of questions. Each questions holds information from its product, and a list of answers.
 The JSON follows the following structure:
 
@@ -81,6 +81,8 @@ To get the available command line parameters, you can execute
 ```
 python main.py -h
 ```
+
+In [config.yml](config.yml) you should set the url for the desired website
 
 ### Scrapping by sequential navigation
 

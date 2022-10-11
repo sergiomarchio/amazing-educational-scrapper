@@ -4,10 +4,10 @@ request-headers:
   Accept-Language: 'en'
 
 request:
-  url-base: https://www.amazon.com/
+  url-base: https://www.amazing-ecommerce-website.com/
   parameters: s?k={keyword}
   # Term to search for
-  keyword: smartphone
+  keyword: time machine
 
 # Debug mode saves a copy of the failed requests. Debug log directory to save debug files
 debug: True
@@ -32,4 +32,4 @@ max-answers-per-question: 3
 save-prod-ids: False
 # If this parameter is set, the value is the filename from where the scrapper will take the product ids
 # and will not run in sequential (default) mode
-scrap-prod-ids: prod_ids.txt
+scrap-prod-ids:

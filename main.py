@@ -157,7 +157,7 @@ if __name__ == '__main__':
     scrap_prod_ids = config['scrap-prod-ids']
 
     # Override language and search term with command line parameters, if any
-    parser = argparse.ArgumentParser(description="Amazon web Q&A scrapper")
+    parser = argparse.ArgumentParser(description="Amazing web Q&A educational scrapper")
     parser.add_argument("-l", "--lang", help="Language for the results, e.g. en, es, ...")
     parser.add_argument("-g", "--max-pages", help="Max number of pages to navigate. -1 for all the pages")
     parser.add_argument("-p", "--max-products", help="Max number of products to retrieve. -1 for all the products")
@@ -216,7 +216,7 @@ if __name__ == '__main__':
                     f"_{max_answers_per_question}"
                     )
 
-    Logger.log("Welcome to Amazon Q&A scrapper")
+    Logger.log("Welcome to Amazing Q&A educational scrapper")
     Logger.log()
     Logger.log(f"Searching for '{request['keyword']}' in '{headers['Accept-Language']}' language")
     Logger.log(f"Aiming to retrieve"
