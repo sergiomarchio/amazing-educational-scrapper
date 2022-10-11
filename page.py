@@ -63,6 +63,7 @@ class Page:
         Logger.log()
         Logger.log(f"Failed request for {self.url}")
         save_debug(self.soup.prettify())
+        raise ValueError("Page was not loaded correctly")
 
 
 class PaginatedPage(Page):
@@ -167,7 +168,7 @@ class ProductPage(Page):
         :return:
         a new ProductPage object corresponding to the provided product id
         """
-        params = f"/dp/{product_id}/"
+        params = f"-/{headers['Accept-Language']}/dp/{product_id}/"
         return ProductPage(base_url=base_url, parameters=params, headers=headers)
 
     def product_questions(self, max_questions=-1, max_answers_per_question=-1):
